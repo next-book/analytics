@@ -1,0 +1,26 @@
+{
+  "name": "@next-book/analytics",
+  "version": "0.0.0",
+  "description": "next-book's self-hosted analytics",
+  "main": "src/index.ts",
+  "scripts": {
+    "build": "tsc && chmod u+x build/bin.js",
+    "dev": "nodemon -e ts -w . -x ts-node ./src/index",
+    "test": "node --experimental-vm-modules --no-warnings node_modules/jest/bin/jest.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/jest": "^27.5.0",
+    "@typescript-eslint/eslint-plugin": "^5.23.0",
+    "@typescript-eslint/parser": "^5.23.0",
+    "eslint": "^8.15.0",
+    "eslint-plugin-import": "^2.26.0",
+    "jest": "^28.1.0",
+    "nodemon": "^2.0.19",
+    "prettier": "^2.6.2",
+    "ts-jest": "^28.0.2",
+    "ts-node": "^10.8.0",
+    "typescript": "^4.6.4"
+  }
+}

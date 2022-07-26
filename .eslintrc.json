@@ -1,0 +1,21 @@
+{
+  "env": {
+    "node": true,
+    "jest": true
+  },
+  "root": true,
+  "plugins": ["@typescript-eslint"],
+  "extends": ["eslint:recommended", "plugin:@typescript-eslint/recommended", "prettier/@typescript-eslint"],
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "project": "./tsconfig.json",
+    "tsconfigRootDir": ".",
+    "ecmaVersion": 2020,
+    "sourceType": "module"
+  },
+  "rules": {
+    "no-nested-ternary": "off",
+    "no-use-before-define": "off",
+    "no-console": ["error", { "allow": ["log", "warn", "error"] }]
+  }
+}

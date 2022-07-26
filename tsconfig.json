@@ -1,0 +1,22 @@
+{
+  "include": ["src/**/*"],
+  "exclude": ["src/ts-node-bin.ts"],
+  "compilerOptions": {
+    "outDir": "build",
+    "target": "es2022",
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "declaration": true,
+    "strict": true,
+    "checkJs": false,
+    "noUnusedLocals": false,
+    "resolveJsonModule": true,
+    "allowSyntheticDefaultImports": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": false,
+    "typeRoots": ["node_modules/@types"],
+    "sourceMap": true
+  },
+  "$schema": "https://json.schemastore.org/tsconfig"
+}

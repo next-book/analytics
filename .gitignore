@@ -1,0 +1,8 @@
+build
+.vscode
+.DS_Store
+.eslintcache
+node_modules/
+*.log
+npm-debug.log*
+.pg
