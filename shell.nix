@@ -11,6 +11,7 @@ in pkgs.mkShell {
 # env variables used by posgresql and its cli (psql)
 PGDATA = "${toString ./.}/.pg";
 PGUSER = "postgres";
+PGDATABASE = "analytics";
 
 # custom postgres config
 postgresConf =
@@ -42,6 +43,7 @@ postgresConf =
     [ ! -d $PGDATA ] && pg_ctl initdb -o "-U $PGUSER" && cat "$postgresConf" >> $PGDATA/postgresql.conf
 
     pg_ctl -o "-k $PGDATA" start
+    createdb $PGDATABASE
 
     function end {
       echo "Shutting down the database..."
