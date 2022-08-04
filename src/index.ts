@@ -8,6 +8,11 @@ import {
 import z from 'zod'
 import postgres from 'postgres'
 import parseUserAgent from 'ua-parser-js'
+import { createHash } from 'crypto'
+import { exec } from 'child_process'
+import { promisify } from 'node:util'
+import { createReadStream } from 'fs'
+const execPromisified = promisify(exec)
 
 // import { writeFile, readFile } from 'fs/promises'
 // import { randomBytes } from 'crypto'
@@ -169,6 +174,52 @@ server.withTypeProvider<ZodTypeProvider>().route({
     // todo: typed result schema
   },
   handler: eventHandler,
+})
+
+const ExportHandlerInputSchema = z.object({
+  password: z.string(),
+})
+
+export type ExportHandlerInput = z.infer<typeof ExportHandlerInputSchema>
+
+type ExportRequest = FastifyRequest<{
+  Querystring: ExportHandlerInput
+}>
+
+server.withTypeProvider<ZodTypeProvider>().route({
+  method: ['GET'],
+  url: '/export',
+  schema: {
+    querystring: ExportHandlerInputSchema,
+  },
+  handler: async function (req: ExportRequest, res: FastifyReply) {
+    const requiredHash =
+      'bdbcebac457909f352ed888e83780763c8f85d3e714eed94fe168a7a536b645d'
+    const salt =
+      '73898db71e7670cb614333cd5cbd57e0864e5ac85bed25b5920fb20a624c916b'
+    const hash = createHash('sha256')
+      .update(salt + req.query.password)
+      .digest('hex')
+    if (hash !== requiredHash) {
+      res.send({ message: 'password verification failed' })
+      return
+    }
+    const { stderr } = await execPromisified(
+      `psql -c "copy events to '/tmp/export.csv' delimiter ',' csv header"`
+    )
+    if (stderr) {
+      throw new Error(`error: ${stderr}`)
+    }
+    const stream = createReadStream('/tmp/export.csv')
+    const timestamp = new Date().toISOString()
+    await res
+      .header(
+        'Content-Disposition',
+        `attachment; filename=events-export-${timestamp}.csv`
+      )
+      .type('text/csv')
+      .send(stream)
+  },
 })
 
 const start = async () => {
