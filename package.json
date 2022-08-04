@@ -25,6 +25,7 @@
     "typescript": "^4.6.4"
   },
   "dependencies": {
+    "@fastify/cors": "^8.1.0",
     "@types/ua-parser-js": "^0.7.36",
     "dotenv": "^16.0.1",
     "fastify": "^4.3.0",

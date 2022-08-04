@@ -1,5 +1,6 @@
 import dotenv from 'dotenv'
 import Fastify, { FastifyInstance, FastifyRequest, FastifyReply } from 'fastify'
+import cors from '@fastify/cors'
 import {
   serializerCompiler,
   validatorCompiler,
@@ -163,17 +164,33 @@ async function eventHandler(req: EventRequest, res: FastifyReply) {
   const result = await sql`
   insert into events ${sql(event)}
   `
+  res.header('Access-Control-Allow-Credentials', 'true')
   res.send(result)
 }
 
-server.withTypeProvider<ZodTypeProvider>().route({
-  method: ['GET'],
-  url: '/collect',
-  schema: {
-    querystring: EventHandlerInputSchema,
-    // todo: typed result schema
-  },
-  handler: eventHandler,
+server.register(async (instance, _options, done) => {
+  await instance.register(cors, {
+    origin: (origin, cb) => {
+      const allowed = ['localhost', '127.0.0.1', 'books-are-next.github.io']
+      const hostname = new URL(origin).hostname
+      if (allowed.includes(hostname)) {
+        cb(null, true)
+        return
+      }
+      cb(new Error('Not allowed'), false)
+    },
+  })
+
+  instance.withTypeProvider<ZodTypeProvider>().route({
+    method: ['GET'],
+    url: '/collect',
+    schema: {
+      querystring: EventHandlerInputSchema,
+    },
+    handler: eventHandler,
+  })
+
+  done()
 })
 
 const ExportHandlerInputSchema = z.object({
