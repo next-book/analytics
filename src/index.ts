@@ -8,6 +8,10 @@ import {
 import z from 'zod'
 import postgres from 'postgres'
 import parseUserAgent from 'ua-parser-js'
+
+// import { writeFile, readFile } from 'fs/promises'
+// import { randomBytes } from 'crypto'
+
 // 1. CLIENT -- request /collect?params --> SERVER
 // 2. SERVER - validate query params
 //            - parse query to event data
@@ -28,8 +32,7 @@ const sql = postgres({
 
 const EventHandlerInputSchema = z.object({
   v: z.string(), // version
-  t: z.enum(['interaction']), // event type
-  c: z.string().uuid().optional(), // event id
+  c: z.string().uuid().optional(), // client id
   u: z.string(), // url
   d: z.string(), // domain
   l: z.string().optional(), // book location
@@ -42,9 +45,9 @@ const EventHandlerInputSchema = z.object({
   utm_campaign: z.string().optional(),
   utm_content: z.string().optional(),
   utm_term: z.string().optional(),
-  ec: z.string(), // event category
-  ea: z.string(), // event action
-  el: z.string().optional(), // event label
+  en: z.string(), // event name
+  ec: z.string().optional(), // event category
+  em: z.string().optional(), // event method
   ev: z.string().optional(), // event value
 })
 
@@ -74,6 +77,49 @@ function calculateScreenSize(w: number) {
   return 'desktop'
 }
 
+// interface Salt {
+//   salt: string
+//   createdAt: string
+// }
+
+// interface Salts {
+//   current: Salt
+//   previous?: Salt
+// }
+
+// async function getSalts(): Promise<Salts> {
+//   const path = '/tmp/var/.salts'
+//   try {
+//     const data = await readFile(path, { encoding: 'utf8' })
+//     const salts: Salts = JSON.parse(data)
+//     const currentDate = new Date(salts.current.createdAt)
+//     if ()
+//   } catch (err) {
+//     const salts = {
+//       current: {
+//         salt: randomBytes(16).toString('base64'),
+//         createdAt: new Date().toUTCString(),
+//       },
+//     }
+//     await writeFile(path, JSON.stringify(salts))
+//     return salts
+//   }
+//
+//   //
+//   // check if current sult is fresh
+//   // not: move current sult to previous
+//   //      generate new current salt
+//   // return current and previous sult
+// }
+// function generateUserId(
+//   dailySalt: string,
+//   bookLocation: string,
+//   ip: string,
+//   userAgent: string
+// ) {
+//   return ''
+// }
+
 async function eventHandler(req: EventRequest, res: FastifyReply) {
   if (!process.env.npm_package_version)
     throw new Error('Package version not available.')
@@ -87,7 +133,6 @@ async function eventHandler(req: EventRequest, res: FastifyReply) {
   const { query, headers } = req
   const ua = parseUserAgent(headers['user-agent'])
   const event = {
-    type: query.t,
     clientId: query.c || parseCookie(headers.cookie) || null,
     bookId: query.b,
     domain: query.d,
@@ -101,8 +146,8 @@ async function eventHandler(req: EventRequest, res: FastifyReply) {
     utmContent: query.utm_content || null,
     utmTerm: query.utm_term || null,
     category: query.ec || null,
-    action: query.ea || null,
-    label: query.el || null,
+    name: query.en || null,
+    method: query.em || null,
     value: query.ev || null,
     operatingSystem: ua.os.name || null,
     operatingSystemVersion: ua.os.version || null,
@@ -111,7 +156,7 @@ async function eventHandler(req: EventRequest, res: FastifyReply) {
     screenSize: (query.w && calculateScreenSize(parseInt(query.w))) || null,
   }
   const result = await sql`
-  insert into dev.event ${sql(event)}
+  insert into events ${sql(event)}
   `
   res.send(result)
 }
@@ -121,6 +166,7 @@ server.withTypeProvider<ZodTypeProvider>().route({
   url: '/collect',
   schema: {
     querystring: EventHandlerInputSchema,
+    // todo: typed result schema
   },
   handler: eventHandler,
 })
