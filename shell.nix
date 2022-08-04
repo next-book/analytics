@@ -44,6 +44,7 @@ postgresConf =
 
     pg_ctl -o "-k $PGDATA" start
     createdb $PGDATABASE
+    psql < schema.sql
 
     function end {
       echo "Shutting down the database..."
