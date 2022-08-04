@@ -194,12 +194,8 @@ server.withTypeProvider<ZodTypeProvider>().route({
   },
   handler: async function (req: ExportRequest, res: FastifyReply) {
     const requiredHash =
-      'bdbcebac457909f352ed888e83780763c8f85d3e714eed94fe168a7a536b645d'
-    const salt =
-      '73898db71e7670cb614333cd5cbd57e0864e5ac85bed25b5920fb20a624c916b'
-    const hash = createHash('sha256')
-      .update(salt + req.query.password)
-      .digest('hex')
+      '7a69187f69ba62ee3815a429c84d47d8623b239ba9fe2378ce6e88214dcb6417'
+    const hash = createHash('sha256').update(req.query.password).digest('hex')
     if (hash !== requiredHash) {
       res.send({ message: 'password verification failed' })
       return
