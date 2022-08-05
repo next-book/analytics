@@ -2,8 +2,7 @@
   "name": "@next-book/analytics",
   "version": "0.0.0",
   "description": "next-book's self-hosted analytics",
-  "main": "build/src/track.js",
-  "types": "build/src/track.d.ts",
+  "main": "build/track.js",
   "scripts": {
     "build": "tsc",
     "transpile": "swc ./src/track.ts -o build/track.js",
