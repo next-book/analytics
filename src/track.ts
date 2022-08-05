@@ -45,9 +45,6 @@ function track(event: EventParams | EventName) {
   const identifier = document.querySelector<MetaIdentifierElement>(
     'meta[name="nb-identifier"]'
   ).content
-  // const clientId = '78730de4-c8e4-403a-a69f-192aaadedf35'
-  // const urlObj = new URL(document.URL)
-
   const clientId = getClientId()
 
   const params: EventHandlerInput = {
