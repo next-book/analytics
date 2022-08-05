@@ -38,7 +38,7 @@ const sql = postgres({
 
 const EventHandlerInputSchema = z.object({
   v: z.string(), // version
-  c: z.string().uuid().optional(), // client id
+  c: z.string().optional(), // client id
   u: z.string(), // url
   d: z.string(), // domain
   l: z.string().optional(), // book location
@@ -245,3 +245,4 @@ const start = async () => {
 }
 
 start()
+export default EventHandlerInput
