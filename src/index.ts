@@ -26,7 +26,21 @@ const execPromisified = promisify(exec)
 
 dotenv.config()
 
-const server: FastifyInstance = Fastify({ logger: true })
+const server: FastifyInstance = Fastify({
+  logger: {
+    transport:
+      process.env.NODE_ENV === 'development'
+        ? {
+            target: 'pino-pretty',
+            options: {
+              translateTime: 'HH:MM:ss Z',
+              ignore: 'pid,hostname',
+            },
+          }
+        : undefined,
+  },
+})
+
 server.setValidatorCompiler(validatorCompiler)
 server.setSerializerCompiler(serializerCompiler)
 
@@ -172,6 +186,7 @@ server.register(async (instance, _options, done) => {
   await instance.register(cors, {
     origin: (origin, cb) => {
       const allowed = ['localhost', '127.0.0.1', 'books-are-next.github.io']
+      instance.log.info('origin:' + origin + ';')
       const hostname = new URL(origin).hostname
       if (allowed.includes(hostname)) {
         cb(null, true)
