@@ -8,7 +8,9 @@ type MetaIdentifierElement =
 // - localstorage key nb-analytics-ignore not equal to true
 
 const DEBUG = true
-const AnalyticsURL = 'http://localhost:3000'
+const API_URL =
+  document.currentScript.getAttribute('data-api') ||
+  new URL(document.currentScript.getAttribute('src')).origin + '/api/event'
 
 type EventName = string
 type EventParams = {
@@ -51,7 +53,7 @@ function track(event: EventParams | EventName) {
     v: '0.0.0',
     c: clientId,
     u: document.URL,
-    d: document.domain + '/topol-kloktat-dehet',
+    d: document.currentScript.getAttribute('data-domain') || document.domain,
     p: document.location.pathname,
     b: identifier,
     r: document.referrer,
@@ -74,7 +76,7 @@ function track(event: EventParams | EventName) {
   if (DEBUG) console.log('Opening request')
   request.open(
     'GET',
-    `${AnalyticsURL}/collect?${new URLSearchParams(params).toString()}`
+    `${API_URL}/collect?${new URLSearchParams(params).toString()}`
   )
   request.withCredentials = true
   if (DEBUG) {
