@@ -1,6 +1,6 @@
 {
   "include": ["src/**/*"],
-  "exclude": ["src/ts-node-bin.ts"],
+  "exclude": ["src/ts-node-bin.ts", "src/track.ts"],
   "compilerOptions": {
     "outDir": "build",
     "target": "es2022",
