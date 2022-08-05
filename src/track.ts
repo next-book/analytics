@@ -19,20 +19,22 @@ type EventParams = {
 }
 
 function getClientId() {
-  // check if valid cookie exists
-  //
-  const id =
-    Math.random().toString(36).substring(2, 15) +
-    '.' +
-    Math.floor(new Date().getTime()) +
-    '.' +
-    Math.floor(performance.now())
-
-  document.cookie = `nb-cid=${id}; max-age=60*60*24*365*2; SameSite=lax; Secure`
-  // not: create cookie and return its value
-  // yes: return its value
-  // find
-  return id
+  const cookies = document.cookie
+    .split('; ')
+    .map((a) => a.split('='))
+    .filter((c) => c[0] === 'nb-cid')
+  const exists = cookies.length == 1
+  if (!exists) {
+    const id =
+      (Math.random().toString(16) + '000000000').substr(2, 8) +
+      '.' +
+      Math.floor(new Date().getTime()) +
+      '.' +
+      Math.floor(performance.now())
+    document.cookie = `nb-cid=${id}; max-age=60*60*24*365*2; SameSite=lax; Secure`
+    return id
+  }
+  return cookies[0][1]
 }
 
 function track(event: EventParams | EventName) {
@@ -78,7 +80,7 @@ function track(event: EventParams | EventName) {
     `${AnalyticsURL}/collect?${new URLSearchParams(params).toString()}`
   )
   request.withCredentials = true
-  if (false) {
+  if (DEBUG) {
     console.log('Event request aborted:', request)
     request.abort()
   } else {
