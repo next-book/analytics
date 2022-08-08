@@ -1,5 +1,5 @@
 /// <reference lib="dom" />
-type EventHandlerInput = import('./index').EventHandlerInput
+type EventHandlerInput = import('./server').EventHandlerInput
 type MetaIdentifierElement =
   import('@next-book/publisher').MetaIdentifierElement
 
