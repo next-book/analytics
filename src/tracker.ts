@@ -83,8 +83,6 @@ class Tracker {
       params.ec = event.category
       params.em = event.method
       params.ev = event.value
-    } else {
-      params.en = event
     }
     let request = new XMLHttpRequest()
     if (this.debug) console.log('Opening request')

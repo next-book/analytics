@@ -58,10 +58,6 @@ function track(event: EventParams | EventName) {
     b: identifier,
     r: document.referrer,
     w: window.innerWidth.toString(),
-    // utm_medium: url('utm_medium'),
-    // utm_source: url('utm_source'),
-    // utm_campaign: url('utm_campaign'),
-    // utm_content: url('utm_content'),
     en: detailed ? event.name : event,
   }
   if (detailed) {
@@ -69,8 +65,6 @@ function track(event: EventParams | EventName) {
     params.ec = event.category
     params.em = event.method
     params.ev = event.value
-  } else {
-    params.en = event
   }
   let request = new XMLHttpRequest()
   if (DEBUG) console.log('Opening request')
