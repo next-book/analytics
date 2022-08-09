@@ -5,9 +5,9 @@ type EventName = string
 
 type EventParams = {
   name: string
-  category: string
-  method: string
-  value: string
+  category?: string
+  method?: string
+  value?: string
 }
 
 class Tracker {
