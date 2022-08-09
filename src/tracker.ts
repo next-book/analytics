@@ -10,31 +10,45 @@ type EventParams = {
   value: string
 }
 
-let singletonTracker: Tracker | null = null
-
 class Tracker {
+  private static instance: Tracker | null
+
   private version: string
   private debug: boolean
-  private domain: string
-  private identifier: string
+  private domain?: string
+  private identifier?: string
+  private initiated: boolean
   private apiURL?: string
   private clientId?: string
 
-  constructor(identifier: string, domain: string, apiURL?: string) {
-    if (singletonTracker) throw new Error('Tracker instance already exists.')
+  constructor() {
     this.version = '0.0.0'
     this.debug = false
-    this.identifier = identifier
-    this.domain = domain
-    this.apiURL = 'http://46.101.96.119' || apiURL
-    this.clientId = this.getClientId()
+    this.initiated = false
+  }
+
+  public static getInstance(): Tracker {
+    if (!Tracker.instance) {
+      Tracker.instance = new Tracker()
+    }
+    return Tracker.instance
+  }
+
+  public init(identifier: string, domain: string, apiURL?: string) {
+    const tracker = Tracker.getInstance()
+    if (tracker.initiated) return
+    tracker.identifier = identifier
+    tracker.domain = domain
+    tracker.apiURL = apiURL || 'http://46.101.96.119'
+    tracker.clientId = tracker.getClientId()
+    tracker.initiated = true
   }
 
   /**
    * Returns client identifier from cookie if exists,
    * creates and returns new identifier otherwise.
    */
-  getClientId(): string {
+  private getClientId(): string {
     const cookies = document.cookie
       .split('; ')
       .map((a) => a.split('='))
@@ -57,6 +71,8 @@ class Tracker {
    * Sends event to API endpoint, the event can be pageview, interaction or other kind
    */
   send(event: EventParams | EventName) {
+    if (!this.initiated || !this.identifier)
+      throw new Error('Tracker is not initiated.')
     const hostname = window.location.hostname
     if (!this.debug && (hostname === 'localhost' || hostname === '127.0.0.1'))
       return
@@ -100,13 +116,6 @@ class Tracker {
   }
 }
 
-export function createTracker(
-  identifier: string,
-  domain: string,
-  apiURL?: string
-) {
-  singletonTracker = new Tracker(identifier, domain, apiURL)
-  return singletonTracker
-}
+let singletonTracker: Tracker = Tracker.getInstance()
 
 export default singletonTracker
