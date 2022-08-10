@@ -3,7 +3,7 @@
 let 
 in pkgs.mkShell {
   packages = with pkgs; [
-    nodejs-16_x
+    nodejs-18_x
     nodePackages.npm
     postgresql_14 
   ];
