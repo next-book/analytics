@@ -28,6 +28,8 @@ dotenv.config()
 
 const server: FastifyInstance = Fastify({
   logger: {
+    level: process.env.NODE_ENV === 'development' ? 'info' : 'error',
+    file: './analytics-server-app.log',
     transport:
       process.env.NODE_ENV === 'development'
         ? {
