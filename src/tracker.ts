@@ -34,13 +34,14 @@ class Tracker {
     return Tracker.instance
   }
 
-  public init(identifier: string, domain: string, apiURL?: string) {
+  public init(id: string, domain: string, apiURL?: string, debug?: boolean) {
     const tracker = Tracker.getInstance()
-    if (tracker.initiated) return
-    tracker.identifier = identifier
+    if (tracker.initiated) throw new Error('Tracker already initiated.')
+    tracker.identifier = id
     tracker.domain = domain
     tracker.apiURL = apiURL || 'http://46.101.96.119'
     tracker.clientId = tracker.getClientId()
+    if (debug) tracker.debug = debug
     tracker.initiated = true
   }
 
@@ -67,18 +68,25 @@ class Tracker {
     return cookies[0][1]
   }
 
+  private log(message: string) {
+    if (this.debug) console.log('[tracker] ' + message)
+  }
+
   /**
    * Sends event to API endpoint, the event can be pageview, interaction or other kind
    */
-  send(event: EventParams | EventName) {
+  public send(event: EventParams | EventName) {
     if (!this.initiated || !this.identifier)
       throw new Error('Tracker is not initiated.')
     const hostname = window.location.hostname
-    if (!this.debug && (hostname === 'localhost' || hostname === '127.0.0.1'))
+    if (!this.debug && (hostname === 'localhost' || hostname === '127.0.0.1')) {
+      this.log('Event not send on localhost')
       return
-    if (window.localStorage.getItem('nb-analytics-ignore')) return
-    const detailed = typeof event !== 'string'
-
+    }
+    if (window.localStorage.getItem('nb-analytics-ignore')) {
+      this.log('Event ignored')
+      return
+    }
     const params: EventHandlerInput = {
       v: this.version,
       c: this.clientId,
@@ -113,7 +121,7 @@ class Tracker {
     request.open('GET', url)
     request.withCredentials = true
     if (this.debug) {
-      console.log('Event request aborted:', request)
+      console.log('[track-debug] Event request aborted:', url)
       request.abort()
     } else {
       request.send()
