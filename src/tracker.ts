@@ -92,20 +92,25 @@ class Tracker {
       // utm_source: url('utm_source'),
       // utm_campaign: url('utm_campaign'),
       // utm_content: url('utm_content'),
-      en: detailed ? event.name : event,
+      ...(typeof event !== 'string'
+        ? {
+            en: event.name,
+            ec: event.category,
+            em: event.method,
+            ev: event.value,
+          }
+        : { en: event }),
     }
-    if (detailed) {
-      params.en = event.name
-      params.ec = event.category
-      params.em = event.method
-      params.ev = event.value
-    }
-    let request = new XMLHttpRequest()
-    if (this.debug) console.log('Opening request')
-    request.open(
-      'GET',
-      `${this.apiURL}/collect?${new URLSearchParams(params).toString()}`
+    Object.keys(params).forEach(
+      (key) =>
+        !params[key as keyof EventHandlerInput] &&
+        delete params[key as keyof EventHandlerInput]
     )
+    let request = new XMLHttpRequest()
+    const url = `${this.apiURL}/collect?${new URLSearchParams(
+      params
+    ).toString()}`
+    request.open('GET', url)
     request.withCredentials = true
     if (this.debug) {
       console.log('Event request aborted:', request)
