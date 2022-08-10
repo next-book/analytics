@@ -6,6 +6,7 @@ in pkgs.mkShell {
     nodejs-18_x
     nodePackages.npm
     postgresql_14 
+    hey
   ];
 
 # env variables used by posgresql and its cli (psql)
