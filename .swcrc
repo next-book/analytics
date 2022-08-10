@@ -4,7 +4,7 @@
       "syntax": "typescript",
       "tsx": false
     },
-    "target": "es5",
+    "target": "es3",
     "loose": true,
     "minify": {
       "compress": {
