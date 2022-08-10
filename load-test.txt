@@ -43,3 +43,97 @@ Details (average, fastest, slowest):
 
 Status code distribution:
   [200] 6325 responses
+
+$ hey -n 200 -c 50 -H "Referer: https://example.com/" -H "Origin: http://localhost:3000/" -m GET "http://46.101.96.119/collect?v=0.0.0&ec=interaction&b=topol-kloktat-dehet-7dd827a&d=books-are-next.github.io%2F&u=https%3A%2F%2Fbooks-are-next.github.io%2Ftopol-kloktat-dehet%2F&l=https%3A%2F%2Fbooks-are-next.github.io%2Ftopol-kloktat-dehet%2F&p=%2Ftopol-kloktat-dehet%2F&en=view_menu&em=click"
+
+Summary:
+  Total:	0.6750 secs
+  Slowest:	0.2508 secs
+  Fastest:	0.0586 secs
+  Average:	0.1574 secs
+  Requests/sec:	296.2805
+  
+  Total data:	400 bytes
+  Size/request:	2 bytes
+
+Response time histogram:
+  0.059 [1]	|■
+  0.078 [5]	|■■■■
+  0.097 [31]	|■■■■■■■■■■■■■■■■■■■■■■■■■
+  0.116 [46]	|■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
+  0.135 [14]	|■■■■■■■■■■■
+  0.155 [6]	|■■■■■
+  0.174 [8]	|■■■■■■■
+  0.193 [26]	|■■■■■■■■■■■■■■■■■■■■■
+  0.212 [12]	|■■■■■■■■■■
+  0.232 [2]	|■■
+  0.251 [49]	|■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
+
+
+Latency distribution:
+  10% in 0.0924 secs
+  25% in 0.1053 secs
+  50% in 0.1488 secs
+  75% in 0.2140 secs
+  90% in 0.2437 secs
+  95% in 0.2472 secs
+  99% in 0.2503 secs
+
+Details (average, fastest, slowest):
+  DNS+dialup:	0.0232 secs, 0.0586 secs, 0.2508 secs
+  DNS-lookup:	0.0000 secs, 0.0000 secs, 0.0000 secs
+  req write:	0.0000 secs, 0.0000 secs, 0.0017 secs
+  resp wait:	0.1337 secs, 0.0585 secs, 0.2139 secs
+  resp read:	0.0003 secs, 0.0000 secs, 0.0111 secs
+
+Status code distribution:
+  [200]	200 responses
+
+
+$ hey -n 100 -c 10 -H "Referer: https://example.com/" -H "Origin: http://localhost:3000/" -m GET "http://46.101.96.119/collect?v=0.0.0&ec=interaction&b=topol-kloktat-dehet-7dd827a&d=books-are-next.github.io%2F&u=https%3A%2F%2Fbooks-are-next.github.io%2Ftopol-kloktat-dehet%2F&l=https%3A%2F%2Fbooks-are-next.github.io%2Ftopol-kloktat-dehet%2F&p=%2Ftopol-kloktat-dehet%2F&en=view_menu&em=click"
+
+Summary:
+  Total:	0.7612 secs
+  Slowest:	0.1468 secs
+  Fastest:	0.0557 secs
+  Average:	0.0732 secs
+  Requests/sec:	131.3791
+  
+  Total data:	200 bytes
+  Size/request:	2 bytes
+
+Response time histogram:
+  0.056 [1]	|■
+  0.065 [50]	|■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
+  0.074 [35]	|■■■■■■■■■■■■■■■■■■■■■■■■■■■■
+  0.083 [4]	|■■■
+  0.092 [0]	|
+  0.101 [0]	|
+  0.110 [0]	|
+  0.120 [0]	|
+  0.129 [0]	|
+  0.138 [2]	|■■
+  0.147 [8]	|■■■■■■
+
+
+Latency distribution:
+  10% in 0.0581 secs
+  25% in 0.0626 secs
+  50% in 0.0648 secs
+  75% in 0.0720 secs
+  90% in 0.1350 secs
+  95% in 0.1462 secs
+  99% in 0.1468 secs
+
+Details (average, fastest, slowest):
+  DNS+dialup:	0.0065 secs, 0.0557 secs, 0.1468 secs
+  DNS-lookup:	0.0000 secs, 0.0000 secs, 0.0000 secs
+  req write:	0.0003 secs, 0.0000 secs, 0.0057 secs
+  resp wait:	0.0658 secs, 0.0556 secs, 0.0760 secs
+  resp read:	0.0002 secs, 0.0000 secs, 0.0049 secs
+
+Status code distribution:
+  [200]	100 responses
+
+
+
