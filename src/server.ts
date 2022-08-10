@@ -57,7 +57,6 @@ const EventHandlerInputSchema = z.object({
   c: z.string().optional(), // client id
   u: z.string(), // url
   d: z.string(), // domain
-  l: z.string().optional(), // book location
   p: z.string().optional(), // pathname
   b: z.string(), // book identifier
   r: z.string().optional(), // referrer
@@ -160,7 +159,6 @@ async function eventHandler(req: EventRequest, res: FastifyReply) {
     domain: query.d,
     url: query.u,
     pathname: query.p || null,
-    bookLocation: query.l || null,
     referrer: query.r || null,
     utmMedium: query.utm_medium || null,
     utmSource: query.utm_source || null,

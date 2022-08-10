@@ -8,7 +8,6 @@ create table events
     domain                   varchar(255)                           not null,
     url                      varchar(255)                           not null,
     pathname                 varchar(255),
-    book_location            varchar(255),
     referrer                 varchar(255),
     name                     varchar(40)                            not null,
     utm_medium               varchar(255),
