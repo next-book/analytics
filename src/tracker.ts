@@ -22,8 +22,8 @@ class Tracker {
   private clientId?: string
 
   constructor() {
-    this.version = '0.0.0'
-    this.debug = false
+    this.version = '0.0.1'
+    this.debug = true
     this.initiated = false
   }
 
@@ -120,7 +120,7 @@ class Tracker {
     ).toString()}`
     request.open('GET', url)
     request.withCredentials = true
-    if (this.debug) {
+    if (!this.debug) {
       console.log('[track-debug] Event request aborted:', url)
       request.abort()
     } else {
