@@ -1,6 +1,6 @@
 {
   "name": "@next-book/analytics",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "next-book's self-hosted analytics",
   "main": "build/tracker.js",
   "types": "build/tracker.d.ts",

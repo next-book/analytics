@@ -22,7 +22,7 @@ class Tracker {
   private clientId?: string
 
   constructor() {
-    this.version = '0.0.1'
+    this.version = '0.0.2'
     this.debug = true
     this.initiated = false
   }
