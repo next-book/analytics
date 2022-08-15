@@ -39,7 +39,7 @@ class Tracker {
     if (tracker.initiated) throw new Error('Tracker already initiated.')
     tracker.identifier = id
     tracker.domain = domain
-    tracker.apiURL = apiURL || 'http://46.101.96.119'
+    tracker.apiURL = apiURL || 'https://analytics.next-book.info'
     tracker.clientId = tracker.getClientId()
     if (debug) tracker.debug = debug
     tracker.initiated = true
