@@ -40,7 +40,7 @@ describe('tracker initiated', () => {
     expect(mockXHR.open).toBeCalledWith(
       'GET',
       expect.stringMatching(
-        /localhost\/api\/collect\?v=0\.0\.1&c=\w+\.\w+\.\w+&u=http%3A%2F%2Fexample\.com%2Fsome%2Furl&d=some\+domain&p=%2F&b=some\+identifier&w=1024&en=test/
+        /localhost\/api\/collect\?v=\d\.\d\.\d&c=\w+\.\w+\.\w+&u=http%3A%2F%2Fexample\.com%2Fsome%2Furl&d=some\+domain&p=%2F&b=some\+identifier&w=1024&en=test/
       )
     )
   })
