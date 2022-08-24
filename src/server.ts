@@ -180,7 +180,7 @@ server.withTypeProvider<ZodTypeProvider>().route({
   },
   handler: async function (req: ExportRequest, res: FastifyReply) {
     const requiredHash =
-      '7a69187f69ba62ee3815a429c84d47d8623b239ba9fe2378ce6e88214dcb6417'
+      '15890ee7bb9829d01cedbd242b563f97961558afeea8a771b2fab367631d3261'
     const hash = createHash('sha256').update(req.query.password).digest('hex')
     if (hash !== requiredHash) {
       res.send({ message: 'password verification failed' })
