@@ -15,9 +15,6 @@ import { promisify } from 'node:util'
 import { createReadStream } from 'fs'
 const execPromisified = promisify(exec)
 
-// import { writeFile, readFile } from 'fs/promises'
-// import { randomBytes } from 'crypto'
-
 // 1. CLIENT -- request /collect?params --> SERVER
 // 2. SERVER - validate query params
 //            - parse query to event data
@@ -97,49 +94,6 @@ function calculateScreenSize(w: number) {
   else if (w < 1440) return 'laptop'
   return 'desktop'
 }
-
-// interface Salt {
-//   salt: string
-//   createdAt: string
-// }
-
-// interface Salts {
-//   current: Salt
-//   previous?: Salt
-// }
-
-// async function getSalts(): Promise<Salts> {
-//   const path = '/tmp/var/.salts'
-//   try {
-//     const data = await readFile(path, { encoding: 'utf8' })
-//     const salts: Salts = JSON.parse(data)
-//     const currentDate = new Date(salts.current.createdAt)
-//     if ()
-//   } catch (err) {
-//     const salts = {
-//       current: {
-//         salt: randomBytes(16).toString('base64'),
-//         createdAt: new Date().toUTCString(),
-//       },
-//     }
-//     await writeFile(path, JSON.stringify(salts))
-//     return salts
-//   }
-//
-//   //
-//   // check if current sult is fresh
-//   // not: move current sult to previous
-//   //      generate new current salt
-//   // return current and previous sult
-// }
-// function generateUserId(
-//   dailySalt: string,
-//   bookLocation: string,
-//   ip: string,
-//   userAgent: string
-// ) {
-//   return ''
-// }
 
 async function eventHandler(req: EventRequest, res: FastifyReply) {
   if (!process.env.npm_package_version)
@@ -260,4 +214,5 @@ const start = async () => {
 }
 
 start()
+
 export default EventHandlerInput
