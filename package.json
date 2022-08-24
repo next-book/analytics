@@ -6,9 +6,8 @@
   "types": "build/tracker.d.ts",
   "scripts": {
     "build": "tsc",
-    "transpile": "swc ./src/track.ts -o build/track.js",
     "server": "node ./build/server.js",
-    "start": "npm run build && npm run transpile && npm run server",
+    "start": "npm run build && npm run server",
     "dev": "nodemon -e ts -w ./src -x npm run start",
     "devsrv": "nodemon -e ts -w ./src -x ts-node ./src/server",
     "test": "node --experimental-vm-modules --no-warnings node_modules/jest/bin/jest.js"
@@ -16,8 +15,6 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "@swc/cli": "^0.1.57",
-    "@swc/core": "^1.2.223",
     "@types/jest": "^27.5.0",
     "@typescript-eslint/eslint-plugin": "^5.23.0",
     "@typescript-eslint/parser": "^5.23.0",
