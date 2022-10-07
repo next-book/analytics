@@ -5,10 +5,8 @@ import 'jest-location-mock'
 import { jest } from '@jest/globals'
 import Tracker from '../tracker'
 
-it('should throw when tracker is not initiated', () => {
-  expect(() => Tracker.send('clicked')).toThrowError(
-    'Tracker is not initiated.'
-  )
+it('should return undefined when tracker is not initiated', () => {
+  expect(Tracker.send('clicked')).toBeUndefined()
 })
 
 describe('tracker initiated', () => {
@@ -16,9 +14,9 @@ describe('tracker initiated', () => {
     Tracker.init('some identifier', 'some domain', 'localhost/api')
   })
 
-  it('should return undefined when initiated with localhost', () => {
+  it('should return zero when initiated with localhost', () => {
     window.location.assign('localhost')
-    expect(Tracker.send('test')).toBeUndefined()
+    expect(Tracker.send('test')).toBe(0)
   })
 
   it('should create XMLHttpRequest', () => {

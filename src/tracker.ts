@@ -76,8 +76,7 @@ class Tracker {
    * Sends event to API endpoint, the event can be pageview, interaction or other kind
    */
   public send(event: EventParams | EventName) {
-    if (!this.initiated || !this.identifier)
-      throw new Error('Tracker is not initiated.')
+    if (!this.initiated || !this.identifier) return
     const hostname = window.location.hostname
     if (!this.debug && (hostname === 'localhost' || hostname === '127.0.0.1')) {
       this.log('Event not send on localhost')
@@ -126,6 +125,7 @@ class Tracker {
     } else {
       request.send()
     }
+    return 0;
   }
 }
 
