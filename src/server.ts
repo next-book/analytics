@@ -44,6 +44,8 @@ server.setValidatorCompiler(validatorCompiler)
 server.setSerializerCompiler(serializerCompiler)
 
 const sql = postgres({
+  idle_timeout: 20,
+  max_lifetime: 60 * 30,
   transform: {
     column: { to: postgres.fromCamel, from: postgres.toCamel },
   },
